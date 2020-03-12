@@ -25,7 +25,9 @@ type TEMP_ENUM = string;
 `;
 
     // top level query type
-    file += `export type ${meta.operation}Type = {
+    file += `export type ${nconf.get('finalTypePrefix') ?? ''}${
+        meta.operation
+    }${nconf.get('finalTypeSuffix') ?? ''} = {
 ${Object.keys(ast).map(key => `\t${key}: ${ast[key].type};\n`)}};
 
 `;

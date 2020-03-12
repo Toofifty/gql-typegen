@@ -7,7 +7,7 @@
  */
 type TEMP_ENUM = string;
 
-export type GetTalentPoolWithFragmentsType = {
+export type GetTalentPoolWithFragmentsResult = {
 	viewer: _ViewerGQL | null;
 };
 
@@ -19,59 +19,59 @@ type _ViewerGQL = {
 };
 
 type _TalentPoolsGQL = {
-	readonly list: (_TalentPoolGQL | null)[];
+	list: (_TalentPoolGQL | null)[];
 };
 
 type _TalentPoolGQL = {
-	readonly id: string;
-	readonly name: string;
-	readonly description: string;
-	readonly slug: string;
-	readonly sites: _SitesGQL | null;
-	readonly workforceType: _WorkforceEnum | null;
-	readonly workers: _WorkersGQL | null;
-	readonly __typename: 'TalentPool';
+	id: string;
+	name: string;
+	description: string;
+	slug: string;
+	sites: _SitesGQL | null;
+	workforceType: _WorkforceEnum | null;
+	workers: _WorkersGQL | null;
+	__typename: 'TalentPool';
 };
 
 type _SitesGQL = {
-	readonly count: number;
-	readonly list: (_SiteGQL | null)[];
+	count: number;
+	list: (_SiteGQL | null)[];
 };
 
 type _SiteGQL = {
-	readonly id: string;
+	id: string;
 };
 
 type _WorkforceEnum = 'SIDEKICK' | 'EMPLOYEE' | 'SIDEKICK_PRIVATE';
 
 type _WorkersGQL = {
-	readonly count: number;
-	readonly list: (_SidekickGQL | null)[];
+	count: number;
+	list: (_SidekickGQL | null)[];
 };
 
 type _SidekickGQL = {
-	readonly id: string;
-	readonly oldProfileLink: string;
-	readonly firstName: string;
-	readonly lastName: string;
-	readonly avatar: string;
-	readonly completedJobCount: number;
-	readonly rating: number;
-	readonly isSmartHireRequested: boolean;
-	readonly isSmartHireAvailable: boolean;
-	readonly talentPools: _TalentPoolsGQL | null;
-	readonly address: _AddressGQL | null;
-	readonly isBlacklisted: boolean;
+	id: string;
+	oldProfileLink: string;
+	firstName: string;
+	lastName: string;
+	avatar: string;
+	completedJobCount: number;
+	rating: number;
+	isSmartHireRequested: boolean;
+	isSmartHireAvailable: boolean;
+	talentPools: _TalentPoolsGQL | null;
+	address: _AddressGQL | null;
+	isBlacklisted: boolean;
 };
 
 type _AddressGQL = {
-	readonly displayAddress: string;
-	readonly line1: string;
-	readonly city: string;
-	readonly postcode: string;
-	readonly state: string;
-	readonly country: string;
-	readonly latitude: number;
-	readonly longitude: number;
+	displayAddress: string;
+	line1: string;
+	city: string;
+	postcode: string;
+	state: string;
+	country: string;
+	latitude: number;
+	longitude: number;
 };
 

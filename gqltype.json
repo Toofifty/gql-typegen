@@ -5,9 +5,11 @@
     },
     "basePath": ".",
     "addTypename": false,
-    "readonlyTypes": true,
+    "readonlyTypes": false,
     "typePrefix": "_",
     "enumPrefix": "_",
     "typeSuffix": "GQL",
-    "enumSuffix": "Enum"
+    "enumSuffix": "Enum",
+    "finalTypePrefix": "",
+    "finalTypeSuffix": "Result"
 }
