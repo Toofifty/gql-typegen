@@ -102,6 +102,7 @@ const generateTypedef = (type: GraphQLType, fields: string[]) => {
     return `type ${nconf.get('typePrefix') ?? ''}${pascal(
         type.name
     )} = {\n\t${fields
+        .filter(field => field !== '__typename')
         .map(field => {
             const fieldDef = findField(field);
             if (!fieldDef || !fieldDef.type) {
@@ -110,13 +111,21 @@ const generateTypedef = (type: GraphQLType, fields: string[]) => {
                 );
             }
             const gtype = generateType(fieldDef.type);
-            const desc = fieldDef.description ?? fieldDef.type.description;
+            const desc =
+                fieldDef.description ??
+                (fieldDef.type.kind === 'OBJECT'
+                    ? fieldDef.type.description
+                    : undefined);
             if (desc) {
                 return `/**\n\t * ${desc}\n\t */\n\t${field}: ${gtype}`;
             }
             return `${field}: ${gtype}`;
         })
-        .join(';\n\t')};\n};`;
+        .join(';\n\t')};${
+        nconf.get('addTypename') || fields.includes('__typename')
+            ? `\n\t__typename: '${type.name}';`
+            : ''
+    }\n};`;
 };
 
 export const findType = (
@@ -124,6 +133,16 @@ export const findType = (
     node: ASTNode,
     stack: string[]
 ) => {
+    if (node.name === '__typename') {
+        const { absType, fieldType } = resolveType(
+            introspection,
+            stack.slice(0, stack.length - 1)
+        );
+        return {
+            type: absType.name,
+            typename: absType.name
+        };
+    }
     const { absType, fieldType } = resolveType(introspection, stack);
     const type = generateType(fieldType);
     const typedef = generateTypedef(absType, Object.keys(node.children ?? {}));

@@ -10,4 +10,5 @@ fragment TalentPoolFragment on TalentPool {
         }
     }
     workforceType
+    __typename
 }

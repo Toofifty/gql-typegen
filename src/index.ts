@@ -5,7 +5,7 @@ import fetchSchema from './fetch-schema';
 import findTypes from './find-type';
 import buildFile from './build-file';
 
-nconf.argv().file({ file: 'gtype.json' });
+nconf.argv().file({ file: 'gqltype.json' });
 
 nconf.required(['input']);
 

@@ -4,5 +4,6 @@
         "cookie": "staging-session=215ed0c4eecbd813665714086089d786"
     },
     "basePath": ".",
+    "addTypename": false,
     "// typePrefix": "GraphQL"
 }
