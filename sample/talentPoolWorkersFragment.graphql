@@ -1,0 +1,31 @@
+fragment TalentPoolWorkersFragment on TalentPool {
+    id
+    workers {
+        count
+        list {
+            id
+            oldProfileLink
+            firstName
+            lastName
+            avatar
+            completedJobCount
+            rating
+            isSmartHireRequested
+            isSmartHireAvailable
+            talentPools {
+                count
+            }
+            address {
+                displayAddress
+                line1
+                city
+                postcode
+                state
+                country
+                latitude
+                longitude
+            }
+            isBlacklisted
+        }
+    }
+}

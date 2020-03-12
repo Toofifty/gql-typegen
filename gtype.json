@@ -1,0 +1,8 @@
+{
+    "url": "http://localhost:8000/graphql",
+    "headers": {
+        "cookie": "staging-session=215ed0c4eecbd813665714086089d786"
+    },
+    "basePath": ".",
+    "// typePrefix": "GraphQL"
+}

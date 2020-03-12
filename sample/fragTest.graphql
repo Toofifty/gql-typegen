@@ -1,0 +1,13 @@
+#import "./talentPoolFragment.graphql"
+#import "./talentPoolWorkersFragment.graphql"
+
+query GetTalentPoolWithFragments {
+    viewer {
+        talentPools {
+            list {
+                ...TalentPoolFragment
+                ...TalentPoolWorkersFragment
+            }
+        }
+    }
+}
