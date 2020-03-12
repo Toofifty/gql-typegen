@@ -8,68 +8,70 @@
 type TEMP_ENUM = string;
 
 export type GetTalentPoolWithFragmentsType = {
-	viewer: Query_Viewer | null;
+	viewer: _ViewerGQL | null;
 };
 
-type Query_Viewer = {
+type _ViewerGQL = {
 	/**
 	 * Get all the talent pools at the company level
 	 */
-	talentPools: Query_TalentPools | null;
+	talentPools: _TalentPoolsGQL | null;
 };
 
-type Query_TalentPools = {
-	list: (Query_TalentPool | null)[];
+type _TalentPoolsGQL = {
+	readonly list: (_TalentPoolGQL | null)[];
 };
 
-type Query_TalentPool = {
-	id: string;
-	name: string;
-	description: string;
-	slug: string;
-	sites: Query_Sites | null;
-	workforceType: TEMP_ENUM;
-	workers: Query_Workers | null;
-	__typename: 'TalentPool';
+type _TalentPoolGQL = {
+	readonly id: string;
+	readonly name: string;
+	readonly description: string;
+	readonly slug: string;
+	readonly sites: _SitesGQL | null;
+	readonly workforceType: _WorkforceEnum | null;
+	readonly workers: _WorkersGQL | null;
+	readonly __typename: 'TalentPool';
 };
 
-type Query_Sites = {
-	count: number;
-	list: (Query_Site | null)[];
+type _SitesGQL = {
+	readonly count: number;
+	readonly list: (_SiteGQL | null)[];
 };
 
-type Query_Site = {
-	id: string;
+type _SiteGQL = {
+	readonly id: string;
 };
 
-type Query_Workers = {
-	count: number;
-	list: (Query_Sidekick | null)[];
+type _WorkforceEnum = 'SIDEKICK' | 'EMPLOYEE' | 'SIDEKICK_PRIVATE';
+
+type _WorkersGQL = {
+	readonly count: number;
+	readonly list: (_SidekickGQL | null)[];
 };
 
-type Query_Sidekick = {
-	id: string;
-	oldProfileLink: string;
-	firstName: string;
-	lastName: string;
-	avatar: string;
-	completedJobCount: number;
-	rating: number;
-	isSmartHireRequested: boolean;
-	isSmartHireAvailable: boolean;
-	talentPools: Query_TalentPools | null;
-	address: Query_Address | null;
-	isBlacklisted: boolean;
+type _SidekickGQL = {
+	readonly id: string;
+	readonly oldProfileLink: string;
+	readonly firstName: string;
+	readonly lastName: string;
+	readonly avatar: string;
+	readonly completedJobCount: number;
+	readonly rating: number;
+	readonly isSmartHireRequested: boolean;
+	readonly isSmartHireAvailable: boolean;
+	readonly talentPools: _TalentPoolsGQL | null;
+	readonly address: _AddressGQL | null;
+	readonly isBlacklisted: boolean;
 };
 
-type Query_Address = {
-	displayAddress: string;
-	line1: string;
-	city: string;
-	postcode: string;
-	state: string;
-	country: string;
-	latitude: number;
-	longitude: number;
+type _AddressGQL = {
+	readonly displayAddress: string;
+	readonly line1: string;
+	readonly city: string;
+	readonly postcode: string;
+	readonly state: string;
+	readonly country: string;
+	readonly latitude: number;
+	readonly longitude: number;
 };
 

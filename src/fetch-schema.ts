@@ -8,6 +8,9 @@ const introspectionQuery = `
                 name
                 kind
                 description
+                enumValues {
+                    name
+                }
                 fields {
                     name
                     description

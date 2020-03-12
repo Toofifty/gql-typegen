@@ -2,14 +2,29 @@ import nconf from 'nconf';
 import { ASTNode } from './parse-query';
 import pascal from './pascal';
 
-// top level type, e.g. ViewerType
-type GraphQLType = {
+type GraphQLScalarType = {
     name: string;
-    kind: 'OBJECT' | 'SCALAR' | 'LIST' | 'NON_NULL' | 'ENUM';
+    kind: 'SCALAR';
+    description: string | null;
+};
+
+type GraphQLObjectType = {
+    name: string;
+    kind: 'OBJECT' | 'LIST' | 'NON_NULL';
     fields: GraphQLField[];
     ofType: GraphQLFieldType | null;
     description: string | null;
 };
+
+type GraphQLEnumType = {
+    name: string;
+    kind: 'ENUM';
+    enumValues: { name: string }[];
+    description: string | null;
+};
+
+// top level type, e.g. ViewerType
+type GraphQLType = GraphQLScalarType | GraphQLObjectType | GraphQLEnumType;
 
 // field type
 type GraphQLFieldType = {
@@ -78,9 +93,13 @@ const getType = (strType: string, type: string) => {
         return strType?.toLowerCase();
     }
     if (type === 'ENUM') {
-        return 'TEMP_ENUM';
+        return `${nconf.get('enumPrefix') ?? ''}${strType}${nconf.get(
+            'enumSuffix'
+        ) ?? ''} | null`;
     }
-    return `${nconf.get('typePrefix') ?? ''}${strType} | null`;
+    return `${nconf.get('typePrefix') ?? ''}${strType}${nconf.get(
+        'typeSuffix'
+    ) ?? ''} | null`;
 };
 
 const generateTypedef = (type: GraphQLType, fields: string[]) => {
@@ -89,7 +108,11 @@ const generateTypedef = (type: GraphQLType, fields: string[]) => {
     }
 
     if (type.kind === 'ENUM') {
-        return undefined;
+        return `type ${nconf.get('enumPrefix') ?? ''}${type.name}${nconf.get(
+            'enumSuffix'
+        ) ?? ''} = ${type.enumValues
+            .map(value => `'${value.name}'`)
+            .join(' | ')};`;
     }
 
     if (fields.length === 0) {
@@ -101,7 +124,7 @@ const generateTypedef = (type: GraphQLType, fields: string[]) => {
 
     return `type ${nconf.get('typePrefix') ?? ''}${pascal(
         type.name
-    )} = {\n\t${fields
+    )}${nconf.get('typeSuffix') ?? ''} = {\n\t${fields
         .filter(field => field !== '__typename')
         .map(field => {
             const fieldDef = findField(field);
@@ -119,11 +142,15 @@ const generateTypedef = (type: GraphQLType, fields: string[]) => {
             if (desc) {
                 return `/**\n\t * ${desc}\n\t */\n\t${field}: ${gtype}`;
             }
-            return `${field}: ${gtype}`;
+            return `${
+                nconf.get('readonlyTypes') ? 'readonly ' : ''
+            }${field}: ${gtype}`;
         })
         .join(';\n\t')};${
         nconf.get('addTypename') || fields.includes('__typename')
-            ? `\n\t__typename: '${type.name}';`
+            ? `\n\t${
+                  nconf.get('readonlyTypes') ? 'readonly ' : ''
+              }__typename: '${type.name}';`
             : ''
     }\n};`;
 };
@@ -177,7 +204,7 @@ export const resolveType = (introspection: GraphQLType[], stack: string[]) => {
                 ({ name }) => name === 'RootSchemaQuery'
             )!,
             fieldType: undefined!
-        } as { absType: GraphQLType; fieldType: GraphQLFieldType }
+        } as { absType: GraphQLObjectType; fieldType: GraphQLFieldType }
     );
 };
 

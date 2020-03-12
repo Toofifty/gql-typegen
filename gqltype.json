@@ -5,5 +5,9 @@
     },
     "basePath": ".",
     "addTypename": false,
-    "// typePrefix": "GraphQL"
+    "readonlyTypes": true,
+    "typePrefix": "_",
+    "enumPrefix": "_",
+    "typeSuffix": "GQL",
+    "enumSuffix": "Enum"
 }
