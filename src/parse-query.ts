@@ -43,8 +43,6 @@ const applyFragments = (query: string) => {
         }) ?? []
     ).reduce((acc, frag) => ({ ...acc, ...frag }), {});
 
-    console.log(imports);
-
     Object.keys(imports).forEach(fragment => {
         query = query.replace(`...${fragment}`, imports[fragment]);
     });
@@ -95,8 +93,6 @@ const parseQuery = (query: string) => {
             token = token.split('(')[0];
             insideParams = true;
         }
-
-        console.log(token);
 
         // meta
         if (stack.length === 0) {

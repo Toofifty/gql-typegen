@@ -124,7 +124,8 @@ const generateTypedef = (type: GraphQLType, fields: string[]) => {
 
     return `type ${nconf.get('typePrefix') ?? ''}${pascal(
         type.name
-    )}${nconf.get('typeSuffix') ?? ''} = {\n\t${fields
+    )}${nconf.get('typeSuffix') ?? ''} = {\n${nconf.get('indent') ??
+        '\t'}${fields
         .filter(field => field !== '__typename')
         .map(field => {
             const fieldDef = findField(field);
@@ -140,15 +141,17 @@ const generateTypedef = (type: GraphQLType, fields: string[]) => {
                     ? fieldDef.type.description
                     : undefined);
             if (desc) {
-                return `/**\n\t * ${desc}\n\t */\n\t${field}: ${gtype}`;
+                return `/**\n${nconf.get('indent') ??
+                    '\t'} * ${desc}\n${nconf.get('indent') ??
+                    '\t'} */\n${nconf.get('indent') ?? '\t'}${field}: ${gtype}`;
             }
             return `${
                 nconf.get('readonlyTypes') ? 'readonly ' : ''
             }${field}: ${gtype}`;
         })
-        .join(';\n\t')};${
+        .join(`;\n${nconf.get('indent') ?? '\t'}`)};${
         nconf.get('addTypename') || fields.includes('__typename')
-            ? `\n\t${
+            ? `\n${nconf.get('indent') ?? '\t'}${
                   nconf.get('readonlyTypes') ? 'readonly ' : ''
               }__typename: '${type.name}';`
             : ''
@@ -225,7 +228,6 @@ const findTypes = (
 ) => {
     const typedAst = ast as Record<string, TypedASTNode>;
     Object.keys(ast).forEach(key => {
-        console.log('Resolving type for', key);
         const node = typedAst[key];
         const { type, typedef, typename } = findType(introspection, node, [
             ...stack,

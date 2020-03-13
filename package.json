@@ -1,8 +1,11 @@
 {
-    "name": "graphql-typegen",
-    "version": "1.0.0",
+    "name": "gql-typegen",
+    "version": "0.0.1",
     "main": "index.js",
     "license": "MIT",
+    "bin": {
+        "gql-typegen": "./dist/index.js"
+    },
     "scripts": {
         "build": "tsc -p .",
         "gen": "node dist/index.js",
@@ -12,6 +15,7 @@
         "@types/nconf": "^0.10.0",
         "@types/node": "^13.9.0",
         "@types/node-fetch": "^2.5.5",
+        "chalk": "^3.0.0",
         "nconf": "^0.10.0",
         "node-fetch": "^2.6.0",
         "prettier": "^1.19.1",
