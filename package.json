@@ -1,8 +1,9 @@
 {
     "name": "gql-typegen",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "main": "index.js",
     "license": "MIT",
+    "repository": "Toofifty/gql-typegen",
     "bin": {
         "gql-typegen": "./dist/index.js"
     },
