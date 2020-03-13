@@ -2,11 +2,11 @@
 
 Generate Typescript definitions for a GraphQL query.
 
-[x] Generates types for queries
-[ ] Generates types for mutations
-[ ] Generates input types
-[x] Evaluates fragments
-[ ] Evaluates aliases
+- [x] Generates types for queries
+- [ ] Generates types for mutations
+- [ ] Generates input types
+- [x] Evaluates fragments
+- [ ] Evaluates aliases
 
 ## Setup
 
