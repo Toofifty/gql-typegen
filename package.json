@@ -18,7 +18,7 @@
         "@types/node-fetch": "^2.5.5",
         "chalk": "^3.0.0",
         "nconf": "^0.10.0",
-        "node-fetch": "^2.6.0",
+        "node-fetch": "^2.6.1",
         "prettier": "^1.19.1",
         "typescript": "^3.8.3"
     }
